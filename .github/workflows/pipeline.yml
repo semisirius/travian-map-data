@@ -1,0 +1,30 @@
+name: Run importer
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'  # This cron expression runs the job every day at 2 AM UTC
+
+permissions:
+  contents: write
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Specify the version of Python you'd like to use
+      - name: Run importer script
+        run: python mapimporter.py
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Automated commit: map data import"
+          git push
