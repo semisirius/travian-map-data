@@ -65,7 +65,7 @@ servers = load_servers()
 print(f"{len(servers)} servers configured, starting import")
 for idx, server in enumerate(servers):
     if server.isspace() or len(my_string) == 0:
-        return
+        break
     print(f"Importing map data for {server} {idx+1}/{len(servers)}")
     raw_data = load_mapsql(server)
     print("Raw map data loaded, parsing")
